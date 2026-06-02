@@ -1,0 +1,130 @@
+---
+title: "统计软件课程设计 - 作业2：数据可视化"
+author: "学生姓名"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    toc: true
+    code_folding: show
+    df_print: paged
+---
+
+<style>
+body { font-size: 18px; }
+</style>
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+```
+
+### 任务说明
+请根据提示完成以下可视化任务，并注意：
+
+- 图像需按指定路径和分辨率保存
+
+- 所有图形对象必须赋值给指定变量名（用于自动批改）
+
+- 仔细调整坐标轴、颜色、标签等细节，体会科学作图的三个核心原则：准确、清晰、美观。
+
+<br>
+
+### 步骤 1：读取预处理后的 NIPT 数据
+
+```{r read-data}
+# TODO: 从 "data/NIPT_after_prep.csv" 读取数据（编码 GBK）
+df_NIPT <- NULL
+
+# 查看数据结构
+str(df_NIPT)
+```
+
+<br>
+
+### 步骤 2：绘制 Y 染色体浓度直方图
+
+```{r histogram}
+library(ggplot2)
+
+# TODO: 构建直方图
+# 提示：
+# - 使用 geom_histogram()，bins = 20
+# - 填充色和边框色设为 "orange"，透明度 alpha = 0.5
+# - x 轴范围 [0, 0.25]，刻度间隔 0.05
+# - 将结果赋值给 hist_Y
+
+# 取消注释以下代码，并确保df_NIPT已正确读取
+# hist_Y <- ggplot(df_NIPT, aes(x = Y染色体浓度)) +
+#   # 在此处填写绘图层
+#   NULL  # ← 删除此行，替换为你的代码
+# 
+# # 显示图形
+# print(hist_Y)
+```
+
+<br>
+
+### 步骤 3：绘制 GC 含量分组箱线图
+
+```{r grouped boxplot}
+library(reshape2)
+
+# --- 数据准备 ---
+# TODO: 使用 melt() 将三列 GC 含量熔化为长格式
+# 列名："X13号染色体的GC含量", "X18号染色体的GC含量", "X21号染色体的GC含量"
+# id.vars 应包含除这三列外的所有列
+df_NIPT_melt <- NULL  # ← 替换为 melt() 结果
+
+# TODO: 将 variable 列中的中文名重命名为 "X13", "X18", "X21" 并转换为有序因子（顺序：X13 → X18 → X21）
+# 示例：df_NIPT_melt$variable[df_NIPT_melt$variable == "..."] <- "X13"
+
+# --- 绘图 ---
+# TODO: 构建箱线图
+# 提示：
+# - x = BMI_group, y = value, color/fill = variable
+# - 颜色指定：X13='#ef0000'（红）, X18='#fec211'（黄）, X21='#008000'（绿）
+# - y 轴范围 [0.37, 0.42]，刻度间隔 0.01
+# - 图例位置 (0.8, 0.92)，单行显示
+# - 将结果赋值给 boxplot_GC
+
+# 取消注释以下代码，并确保df_NIPT已正确读取
+# boxplot_GC <- ggplot(df_NIPT_melt, aes(x = BMI_group, y = value, color = variable, fill = variable)) +
+#   # 在此处添加图层和主题设置
+#   NULL  # ← 删除此行，替换为你的代码
+# 
+# print(boxplot_GC)
+
+```
+
+<br>
+
+### 步骤 4：保存图像（600 dpi PNG）
+
+```{r save-result}
+# 创建 figure 目录
+dir.create("figure", showWarnings = FALSE)
+
+# TODO: 保存直方图为 "figure/histogram_Y.png"
+# 尺寸：宽 2500 像素，高 2000 像素，分辨率 600 dpi
+
+# 取消注释以下代码
+# png(file = "figure/histogram_Y.png", width = 2500, height = 2000, res = 600, bg = "white")
+# print(hist_Y)
+# dev.off()
+
+# TODO: 保存箱线图为 "figure/grouped_boxplot_GC.png"
+# 尺寸：宽 4500 像素，高 3000 像素，分辨率 600 dpi
+
+# 取消注释以下代码
+# png(file = "figure/grouped_boxplot_GC.png", width = 4500, height = 3000, res = 600, bg = "white")
+# print(boxplot_GC)
+# dev.off()
+```
+
+<br>
+
+### 验证输出（请保留此部分用于审核）
+
+```{r check-output, echo=FALSE}
+# 检查图像是否生成
+list.files("figure/", pattern = "\\.png$", full.names = TRUE)
+```
